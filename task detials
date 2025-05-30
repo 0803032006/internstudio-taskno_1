@@ -1,0 +1,8 @@
+Create internstudio_task no 1
+Task 1: Implement Predictive Customer Churn Analysis using Random Forest
+
+- Preprocessed Telco customer dataset by handling missing values and encoding categorical features.
+- Trained Random Forest classifier to predict customer churn based on demographics and usage patterns.
+- Evaluated model performance using accuracy, precision, recall, and AUC-ROC metrics.
+- Included feature importance visualization to identify key drivers of churn.
+- Code is modular and ready for further tuning and deployment.
