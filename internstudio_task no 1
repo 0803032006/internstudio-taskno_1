@@ -1,0 +1,44 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+
+# Load dataset
+df = pd.read_csv("/content/internstudio task _1'.csv")
+
+# Clean data
+df.dropna(inplace=True)  # or fill missing values appropriately
+df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')
+df.dropna(inplace=True)
+# Encode categorical features
+label_encoders = {}
+for column in df.select_dtypes(include=['object']).columns:
+    if column != 'customerID':
+        le = LabelEncoder()
+        df[column] = le.fit_transform(df[column])
+        label_encoders[column] = le
+
+# Feature-target split
+X = df.drop(['Churn', 'customerID'], axis=1)
+y = df['Churn']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+from sklearn.linear_model import LogisticRegression
+log_model = LogisticRegression(max_iter=1000)
+log_model.fit(X_train, y_train)
+from sklearn.tree import DecisionTreeClassifier
+tree_model = DecisionTreeClassifier()
+tree_model.fit(X_train, y_train)
+from sklearn.ensemble import RandomForestClassifier
+rf_model = RandomForestClassifier(n_estimators=100)
+rf_model.fit(X_train, y_train)
+from sklearn.ensemble import RandomForestClassifier
+rf_model = RandomForestClassifier(n_estimators=100)
+rf_model.fit(X_train, y_train)
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+feature_importances = pd.Series(rf_model.feature_importances_, index=X.columns)
+feature_importances.nlargest(10).plot(kind='barh')
+plt.title("Top 10 Important Features")
+plt.show()
